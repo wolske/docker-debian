@@ -4,33 +4,24 @@
 # Uncomment this to turn on verbose mode.
 # export DH_VERBOSE=1
 
-# Temporary directory where the source is copied and compiled
-TMPGOPATH = $(CURDIR)/debian/tmp/usr/share/gocode
-
 # Tell dh-golang where this package lives upstream
 export DH_GOPKG := github.com/dotcloud/docker
 
-# Docker temporary building path
-DOCKER_PATH = ${TMPGOPATH}/src/${DH_GOPKG}
-
-DOCKER_VERSION = $(shell git tag | sort -nr | sed -E -n 's/upstream\/(.+)/\1/p')
-GIT_COMMIT = $(shell git rev-list upstream/${DOCKER_VERSION} | sed -E -n 's/^(.{12}).+/\1/p;q')
-BUILD_OPTIONS = -a -ldflags "-X main.GITCOMMIT $(GIT_COMMIT)+changes -d -w"
-
-override_dh_auto_install:
-	# Create temporary docker go build tree with dependencies
-	mkdir -p ${DOCKER_PATH}
-	mkdir -p ${TMPGOPATH}/bin
-	# Copy dependencies (provided by golang-DOCKER_DEPENDENCY-dev)
-	tar -cz -C /usr/share/gocode . | tar -xvz -C ${TMPGOPATH}
-	# Copy current docker code
-	find . -path ./debian -prune -o -type f -name "*.go" -exec tar cf - {} + | (cd ${DOCKER_PATH} && tar xvf -)
-	# Build docker
-	cd ${DOCKER_PATH}/docker; GOPATH=${TMPGOPATH} CGO_ENABLED=0 go build -v $(BUILD_OPTIONS)
-	# Move docker binary to installation path
-	mv ${DOCKER_PATH}/docker/docker ${TMPGOPATH}/bin/lxc-docker
+# Create static binary
+export CGO_ENABLED := 0
 
 override_dh_auto_build:
+	dh_auto_build -- -ldflags '-w'
+
+override_dh_auto_install:
+	dh_auto_install
+	# To not clash with other binaries, use the more specific “lxc-docker”
+	# name for the binary.
+	mv debian/lxc-docker/usr/bin/docker debian/lxc-docker/usr/bin/lxc-docker
+	# Remove unnecesary testing  binary
+	rm debian/lxc-docker/usr/bin/contrib
+	# The source of docker does not make a library, so don’t ship it.
+	rm -rf debian/lxc-docker/usr/share/gocode
 
 override_dh_auto_test: 
 
