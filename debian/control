@@ -11,7 +11,7 @@ Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/lxc-docker.git;a=s
 
 Package: lxc-docker
 Architecture: linux-any
-Depends: ${misc:Depends}, ${shlibs:Depends}, lxc
+Depends: ${misc:Depends}, lxc
 Built-Using: ${misc:Built-Using}
 Description: Linux container runtime
  Docker complements LXC with a high-level API which operates at the process
