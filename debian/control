@@ -3,7 +3,8 @@ Section: admin
 Priority: optional
 Maintainer: Daniel Mizyrycki <daniel@dotcloud.com>
 Build-Depends: debhelper (>=9), git, golang, dh-golang (>= 1.1), dh-systemd,
- golang-pty-dev, golang-mux-dev, golang-context-dev
+ golang-pty-dev, golang-mux-dev, golang-context-dev,
+ python-sphinx (>= 1.0.7+dfsg), python-sphinxcontrib-httpdomain
 Standards-Version: 3.9.4
 Homepage: http://github.com/dotcloud/docker
 Vcs-Git: git://anonscm.debian.org/collab-maint/lxc-docker.git
@@ -20,3 +21,19 @@ Description: Linux container runtime
  Docker is a great building block for automating distributed systems:
  large-scale web deployments, database clusters, continuous deployment systems,
  private PaaS, service-oriented architectures, etc.
+ .
+ This package contains the daemon and client.
+
+Package: lxc-docker-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends}, ${sphinx:Depends}
+Description: Linux container runtime documentation
+ Docker complements LXC with a high-level API which operates at the process
+ level. It runs unix processes with strong guarantees of isolation and
+ repeatability across servers.
+ Docker is a great building block for automating distributed systems:
+ large-scale web deployments, database clusters, continuous deployment systems,
+ private PaaS, service-oriented architectures, etc.
+ .
+ This package contains the Documentation.

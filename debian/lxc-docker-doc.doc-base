@@ -1,0 +1,9 @@
+Document: lxc-docker
+Title: LXC Docker Documentation
+Author: dotCloud Open Source
+Abstract: This manual describes lxc-docker.
+Section: System/Administration
+
+Format: HTML
+Index: /usr/share/doc/lxc-docker-doc/html/index.html
+Files: /usr/share/doc/lxc-docker-doc/html/*
