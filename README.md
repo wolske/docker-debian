@@ -171,7 +171,7 @@ compiler >= 1.1 and [git](http://git-scm.com) installed.
 2. Checkout the source code
 
    ```bash
-   git clone http://github.com/dotcloud/docker
+   git clone http://github.com/dotcloud/docker-debian
    ```
 
 3. Build the ``docker`` binary
